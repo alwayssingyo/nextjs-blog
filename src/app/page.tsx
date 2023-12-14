@@ -1,3 +1,9 @@
+import Profile from '@/components/Profile';
+
 export default function Home() {
-  return <div className='text-3xl'>ee</div>;
+  return (
+    <div className='min-h-full px-4 pt-4'>
+      <Profile />
+    </div>
+  );
 }
