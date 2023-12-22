@@ -10,8 +10,9 @@ export default function Profile() {
         <Image
           src={image}
           alt='singyo'
-          className='rounded-full w-full h-auto'
-        ></Image>
+          layout='fill'
+          className='!h-full object-cover z-0 rounded-full'
+        />
       </div>
       <div className='text-2xl font-bold'>Hi, I'm Singyo</div>
       <div>Front-end engineer</div>
