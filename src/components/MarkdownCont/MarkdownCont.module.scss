@@ -1,0 +1,42 @@
+.markdown {
+  h2 {
+    padding: 20px 0;
+    font-size: 40px;
+    font-weight: 700;
+  }
+
+  p {
+    margin-bottom: 20px;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  blockquote {
+    padding-left: 20px;
+    border-left: 3px solid gray;
+
+    p {
+      font-style: italic;
+    }
+  }
+
+  li {
+    position: relative;
+    margin-left: 28px;
+    &:after {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: -20px;
+      width: 8px;
+      height: 8px;
+      background-color: gray;
+      border-radius: 100%;
+    }
+    + li {
+      margin-top: 10px;
+    }
+  }
+}

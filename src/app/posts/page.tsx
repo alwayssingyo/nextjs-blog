@@ -26,6 +26,7 @@ export default async function PostsPage() {
                     alt=''
                     layout='fill'
                     className='!h-full object-cover z-0 rounded-t-lg'
+                    sizes='(max-width: 732px) 90vw, (max-width: 992px) 45vw, 320px'
                   />
                 </div>
                 <div className='text-black p-4 rounded-b-lg'>
