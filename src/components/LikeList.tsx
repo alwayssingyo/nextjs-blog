@@ -1,30 +1,24 @@
-import LikeList from '@/components/LikeList';
-import Profile from '@/components/Profile';
-import { getPosts } from '@/service/posts';
+'use client';
+import { Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Posts } from '@/service/posts';
 import Image from 'next/image';
 import Link from 'next/link';
 import 'swiper/css';
+import 'swiper/css/navigation';
 
-export default async function Home() {
-  const data = await getPosts();
-  const featuedData = data
-    .filter((val) => val.featured === true)
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-    .reverse();
-  const likeData = data
-    .filter((val) => val.featured === false)
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-    .reverse();
-
+export default function LikeList({ likeData }: { likeData: Posts[] }) {
   return (
-    <div className='min-h-full px-4 pt-4 pb-10'>
-      <Profile />
-
-      {/* Featured Posts */}
-      <div className='mt-10 mb-3 text-xl font-bold'>Featured Posts</div>
-      <div className='flex flex-wrap -m-3'>
-        {featuedData.map((post) => (
-          <div className='inline-block w-1/3 p-3'>
+    <Swiper
+      modules={[Navigation]}
+      spaceBetween={24}
+      slidesPerView={3}
+      navigation
+      loop
+    >
+      {likeData.map((post) => (
+        <div key={post.path}>
+          <SwiperSlide>
             <Link
               href={`/posts/${post.path}`}
               key={post.path}
@@ -50,15 +44,9 @@ export default async function Home() {
                 </div>
               </div>
             </Link>
-          </div>
-        ))}
-      </div>
-
-      {/* You may like */}
-      <div className='mt-10 mb-3 text-xl font-bold'>You may like</div>
-      <div className=''>
-        <LikeList likeData={likeData} />
-      </div>
-    </div>
+          </SwiperSlide>
+        </div>
+      ))}
+    </Swiper>
   );
 }
