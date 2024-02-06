@@ -4,10 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default async function PostsPage() {
-  const beforeSortPosts = await getPosts();
-  const posts = beforeSortPosts
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-    .reverse();
+  const posts = await getPosts();
 
   return (
     <div className='flex pt-6 px-16 mb-20'>

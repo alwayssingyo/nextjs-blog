@@ -12,11 +12,8 @@ type Props = {
 };
 
 export default async function PostPage({ params: { slug } }: Props) {
-  const beforeSortPosts = await getPosts();
+  const posts = await getPosts();
   const data = await getPostData(slug);
-  const posts = beforeSortPosts
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-    .reverse();
   const index = posts.findIndex((obj) => obj.path == slug);
   const post = posts.filter((val) => val.path === slug)[0];
   const prevPost = index === 0 ? posts[posts.length - 1] : posts[index - 1];

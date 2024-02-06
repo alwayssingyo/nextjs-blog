@@ -8,14 +8,8 @@ import 'swiper/css';
 
 export default async function Home() {
   const data = await getPosts();
-  const featuredData = data
-    .filter((val) => val.featured === true)
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-    .reverse();
-  const likeData = data
-    .filter((val) => val.featured === false)
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-    .reverse();
+  const featuredData = data.filter((val) => val.featured === true);
+  const likeData = data.filter((val) => val.featured === false);
 
   return (
     <div className='min-h-full px-4 pt-4 pb-10'>

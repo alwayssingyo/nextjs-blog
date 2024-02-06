@@ -12,9 +12,11 @@ export type Posts = {
 
 export async function getPosts(): Promise<Posts[]> {
   const filepath = path.join(process.cwd(), 'data', 'posts.json');
-  const data = await fs.promises.readFile(filepath, 'utf-8');
 
-  return JSON.parse(data);
+  return fs.promises
+    .readFile(filepath, 'utf-8')
+    .then<Posts[]>(JSON.parse)
+    .then((posts) => posts.sort((a, b) => (a.date > b.date ? -1 : 1)));
 }
 
 export async function getPostData(id: string): Promise<string> {
@@ -23,9 +25,3 @@ export async function getPostData(id: string): Promise<string> {
 
   return fileContents;
 }
-
-// export async function getProduct(id: string): Promise<Product | undefined> {
-//   const products = await getProducts();
-
-//   return products.find((item) => item.id === id);
-// }
