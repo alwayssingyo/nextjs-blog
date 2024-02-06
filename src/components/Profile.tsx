@@ -14,8 +14,8 @@ export default function Profile() {
           className='!h-full object-cover z-0 rounded-full'
         />
       </div>
-      <div className='text-2xl font-bold'>Hi, I'm Singyo</div>
-      <div>Front-end engineer</div>
+      <h2 className='text-2xl font-bold'>Hi, I'm Singyo</h2>
+      <h3>Front-end engineer</h3>
       <div className='mt-2 text-sm text-slate-400 '>
         싱요 블로그에 오신 걸 환영해용
       </div>
