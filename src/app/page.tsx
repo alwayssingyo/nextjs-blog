@@ -1,13 +1,12 @@
 import FeaturedList from '@/components/FeaturedList';
 import LikeList from '@/components/LikeList';
 import Profile from '@/components/Profile';
-import { getFeaturedPost, getPosts } from '@/service/posts';
+import { getFeaturedPost, getNonFeaturedPost } from '@/service/posts';
 import 'swiper/css';
 
 export default async function Home() {
-  const data = await getPosts();
   const featuredData = await getFeaturedPost();
-  const likeData = data.filter((val) => val.featured === false);
+  const likeData = await getNonFeaturedPost();
 
   return (
     <div className='min-h-full px-4 pt-4 pb-10'>

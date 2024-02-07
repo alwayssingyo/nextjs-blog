@@ -1,5 +1,5 @@
 'use client';
-import { Navigation } from 'swiper/modules';
+import { Autoplay, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Posts } from '@/service/posts';
 import Image from 'next/image';
@@ -10,11 +10,15 @@ import 'swiper/css/navigation';
 export default function LikeList({ likeData }: { likeData: Posts[] }) {
   return (
     <Swiper
-      modules={[Navigation]}
+      modules={[Autoplay, Navigation]}
       spaceBetween={24}
       slidesPerView={3}
       navigation
       loop
+      autoplay={{
+        delay: 2000,
+        disableOnInteraction: false,
+      }}
     >
       {likeData.map((post) => (
         <div key={post.path}>
