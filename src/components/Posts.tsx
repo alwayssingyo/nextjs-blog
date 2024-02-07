@@ -6,22 +6,25 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
-export default function Posts({ posts }: { posts: Posts[] }) {
-  const [filterdPosts, setFilterdPosts] = useState<Posts[]>(posts);
-
-  const onFilter = (category: string) => {
-    if (category === 'all') {
-      setFilterdPosts(posts);
-    } else {
-      setFilterdPosts(posts.filter((post) => post.category === category));
-    }
-  };
+export default function Posts({
+  posts,
+  categories,
+}: {
+  posts: Posts[];
+  categories: string[];
+}) {
+  const ALL_POST = 'All Posts';
+  const [selected, setSelected] = useState(ALL_POST);
+  const filtered =
+    selected === ALL_POST
+      ? posts
+      : posts.filter((post) => post.category === selected);
 
   return (
     <>
       <div className='flex-auto h-full'>
         <div className='flex flex-wrap'>
-          {filterdPosts.map((post) => (
+          {filtered.map((post) => (
             <div className='inline-block lg:w-1/3 md:w-1/2 sm:w-full w-full p-3'>
               <Link
                 href={`/posts/${post.path}`}
@@ -53,7 +56,11 @@ export default function Posts({ posts }: { posts: Posts[] }) {
         </div>
       </div>
 
-      <Category onClick={onFilter} />
+      <Category
+        categories={[ALL_POST, ...categories]}
+        selected={selected}
+        onClick={setSelected}
+      />
     </>
   );
 }
