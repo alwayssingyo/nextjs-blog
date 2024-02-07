@@ -10,7 +10,10 @@ export default function FeaturedList({
   return (
     <div className='flex flex-wrap -m-3'>
       {featuredData.map((post) => (
-        <div className='inline-block w-1/3 p-3' key={post.path}>
+        <div
+          className='inline-block lg:w-1/3 md:w-1/2 sm:w-full w-full p-3'
+          key={post.path}
+        >
           <Link
             href={`/posts/${post.path}`}
             key={post.path}
