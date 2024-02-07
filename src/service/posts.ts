@@ -10,9 +10,13 @@ export type Posts = {
   featured: boolean;
 };
 
+export async function getFeaturedPost(): Promise<Posts[]> {
+  return getPosts() //
+    .then((posts) => posts.filter((post) => post.featured));
+}
+
 export async function getPosts(): Promise<Posts[]> {
   const filepath = path.join(process.cwd(), 'data', 'posts.json');
-
   return fs.promises
     .readFile(filepath, 'utf-8')
     .then<Posts[]>(JSON.parse)
@@ -22,6 +26,5 @@ export async function getPosts(): Promise<Posts[]> {
 export async function getPostData(id: string): Promise<string> {
   const filepath = path.join(process.cwd(), 'data/posts', `${id}.md`);
   const fileContents = fs.promises.readFile(filepath, 'utf-8');
-
   return fileContents;
 }

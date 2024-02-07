@@ -1,14 +1,12 @@
 import FeaturedList from '@/components/FeaturedList';
 import LikeList from '@/components/LikeList';
 import Profile from '@/components/Profile';
-import { getPosts } from '@/service/posts';
-import Image from 'next/image';
-import Link from 'next/link';
+import { getFeaturedPost, getPosts } from '@/service/posts';
 import 'swiper/css';
 
 export default async function Home() {
   const data = await getPosts();
-  const featuredData = data.filter((val) => val.featured === true);
+  const featuredData = await getFeaturedPost();
   const likeData = data.filter((val) => val.featured === false);
 
   return (
