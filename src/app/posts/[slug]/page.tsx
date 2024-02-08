@@ -32,7 +32,7 @@ export default async function PostPage({ params: { slug } }: Props) {
           className='!h-full object-cover z-0 rounded-t-lg'
         />
       </div>
-      <div className='bg-white rounded-b-lg'>
+      <div className='bg-gray-100 rounded-b-lg'>
         {/* info */}
         <div className='pt-5 pb-8 px-10 text-black'>
           <div className='text-right text-sm font-bold text-stone-400'>

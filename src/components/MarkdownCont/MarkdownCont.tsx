@@ -1,9 +1,9 @@
 'use client';
+import Image from 'next/image';
 import Markdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import dracula from 'react-syntax-highlighter/dist/cjs/styles/prism/dracula';
+import materialDark from 'react-syntax-highlighter/dist/cjs/styles/prism/dracula';
 import remarkGfm from 'remark-gfm';
-import styles from './MarkdownCont.module.scss';
 
 type Data = {
   postData: string;
@@ -12,27 +12,35 @@ type Data = {
 export default function MarkdownCont({ postData }: Data) {
   return (
     <Markdown
-      className='prose lg:prose-xl'
+      className='prose lg:prose-xl max-w-none'
       remarkPlugins={[remarkGfm]}
       components={{
-        code(props) {
-          const { children, className, node, style, ...rest } = props;
+        code({ node, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || '');
           return match ? (
             <SyntaxHighlighter
-              {...rest}
-              PreTag='div'
-              children={String(children).replace(/\n$/, '')}
               language={match[1]}
-              style={dracula}
-            />
+              PreTag='div'
+              {...props}
+              style={materialDark}
+            >
+              {String(children).replace(/\n$/, '')}
+            </SyntaxHighlighter>
           ) : (
-            <code {...rest} className={className} children={children} />
+            <code {...props} className={className}>
+              {children}
+            </code>
           );
         },
-        blockquote({ children, ...props }) {
-          return <blockquote {...props}>{children}</blockquote>;
-        },
+        img: (image) => (
+          <Image
+            className='w-full max-h-60 object-cover'
+            src={image.src || ''}
+            alt={image.alt || ''}
+            width={500}
+            height={350}
+          />
+        ),
       }}
     >
       {postData}
