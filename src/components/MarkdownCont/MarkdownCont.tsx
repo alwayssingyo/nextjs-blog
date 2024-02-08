@@ -11,32 +11,31 @@ type Data = {
 
 export default function MarkdownCont({ postData }: Data) {
   return (
-    <div className={styles.markdown}>
-      <Markdown
-        remarkPlugins={[remarkGfm]}
-        components={{
-          code(props) {
-            const { children, className, node, style, ...rest } = props;
-            const match = /language-(\w+)/.exec(className || '');
-            return match ? (
-              <SyntaxHighlighter
-                {...rest}
-                PreTag='div'
-                children={String(children).replace(/\n$/, '')}
-                language={match[1]}
-                style={dracula}
-              />
-            ) : (
-              <code {...rest} className={className} children={children} />
-            );
-          },
-          blockquote({ children, ...props }) {
-            return <blockquote {...props}>{children}</blockquote>;
-          },
-        }}
-      >
-        {postData}
-      </Markdown>
-    </div>
+    <Markdown
+      className='prose lg:prose-xl'
+      remarkPlugins={[remarkGfm]}
+      components={{
+        code(props) {
+          const { children, className, node, style, ...rest } = props;
+          const match = /language-(\w+)/.exec(className || '');
+          return match ? (
+            <SyntaxHighlighter
+              {...rest}
+              PreTag='div'
+              children={String(children).replace(/\n$/, '')}
+              language={match[1]}
+              style={dracula}
+            />
+          ) : (
+            <code {...rest} className={className} children={children} />
+          );
+        },
+        blockquote({ children, ...props }) {
+          return <blockquote {...props}>{children}</blockquote>;
+        },
+      }}
+    >
+      {postData}
+    </Markdown>
   );
 }

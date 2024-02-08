@@ -32,16 +32,16 @@ export default async function PostPage({ params: { slug } }: Props) {
           className='!h-full object-cover z-0 rounded-t-lg'
         />
       </div>
-      <div className='bg-stone-900 rounded-b-lg'>
+      <div className='bg-white rounded-b-lg'>
         {/* info */}
-        <div className='pt-5 pb-8 px-10'>
+        <div className='pt-5 pb-8 px-10 text-black'>
           <div className='text-right text-sm font-bold text-stone-400'>
             <FaCalendar className='inline-block mr-2 mb-0.5' />
             {data.date}
           </div>
           <h1 className='text-4xl font-bold'>{data.title}</h1>
-          <p className='pt-1'>{data.description}</p>
-          <span className='inline-block w-32 h-1 bg-lime-300'></span>
+          <p className='pt-1 text-stone-700'>{data.description}</p>
+          <span className='inline-block w-32 h-1 bg-sky-700'></span>
         </div>
 
         {/* markdown content */}
