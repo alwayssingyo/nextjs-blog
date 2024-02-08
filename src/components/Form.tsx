@@ -1,63 +1,95 @@
 'use client';
 // import useEmail from '@/util/hooks/useEmail';
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
+
+type FormData = {
+  email: string;
+  subject: string;
+  message: string;
+};
 
 export default function Form() {
-  const [email, setEmail] = useState<string>('');
-  const [subject, setSubject] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
+  const [form, setForm] = useState<FormData>({
+    email: '',
+    subject: '',
+    message: '',
+  });
+  const [send, setSend] = useState<string | null>(null);
+  const alertRef = useRef<HTMLDivElement>(null);
+
+  const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSend('success');
+    setTimeout(() => {
+      setSend(null);
+    }, 2000);
+  };
 
   return (
-    <section className='mt-12'>
-      {/* <div className='mb-10'>
-        <div className='inline-block px-4 py-1 text-sm text-black bg-lime-500'>
-          메일을 성공적으로 보냈습니다.
+    <form className='mt-12' onSubmit={onSubmit}>
+      {send && (
+        <div ref={alertRef} className='mb-10'>
+          {send === 'success' && (
+            <div className='inline-block px-4 py-1 text-sm text-black bg-lime-500 rounded-lg'>
+              메일을 성공적으로 보냈습니다.
+            </div>
+          )}
+          {send === 'fail' && (
+            <div className='inline-block px-4 py-1 text-sm text-black bg-red-400 rounded-lg'>
+              메일 전송에 실패했습니다. 다시 시도해 주세요!
+            </div>
+          )}
         </div>
-        <div className='inline-block px-4 py-1 text-sm text-black bg-red-400'>
-          메일 전송에 실패했습니다. 다시 시도해 주세요!
-        </div>
-      </div> */}
+      )}
       <div className='w-96 inline-block p-4 bg-zinc-900 rounded-lg text-left'>
         <div>
           <p className='mb-2'>Your Email</p>
           <input
+            type='email'
+            id='email'
+            name='email'
+            required
+            autoFocus
             className='w-full text-black'
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
+            value={form.email}
+            onChange={onChange}
           />
         </div>
         <div className='mt-4'>
           <p className='mb-2'>Subject</p>
           <input
+            type='text'
+            id='subject'
+            name='subject'
+            required
             className='w-full text-black'
-            value={subject}
-            onChange={(e) => {
-              setSubject(e.target.value);
-            }}
+            value={form.subject}
+            onChange={onChange}
           />
         </div>
         <div className='mt-4'>
           <p className='mb-2'>Message</p>
           <textarea
+            id='message'
+            name='message'
+            required
             className='w-full h-60 text-black'
-            value={message}
-            onChange={(e) => {
-              setMessage(e.target.value);
-            }}
+            value={form.message}
+            onChange={onChange}
           />
         </div>
         <button
           type='submit'
           className='w-full py-2 mt-2 bg-amber-300 text-black text-sm'
-          // onClick={() => {
-          //   useEmail(email, subject, message);
-          // }}
         >
           Submit
         </button>
       </div>
-    </section>
+    </form>
   );
 }
