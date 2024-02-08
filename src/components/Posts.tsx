@@ -25,7 +25,10 @@ export default function Posts({
       <div className='flex-auto h-full'>
         <div className='flex flex-wrap'>
           {filtered.map((post) => (
-            <div className='inline-block lg:w-1/3 md:w-1/2 sm:w-full w-full p-3'>
+            <div
+              key={post.path}
+              className='inline-block lg:w-1/3 md:w-1/2 sm:w-full w-full p-3'
+            >
               <Link
                 href={`/posts/${post.path}`}
                 key={post.path}

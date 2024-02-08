@@ -10,6 +10,8 @@ export type Posts = {
   featured: boolean;
 };
 
+export type PostData = Posts & { content: string };
+
 export async function getFeaturedPost(): Promise<Posts[]> {
   return getPosts() //
     .then((posts) => posts.filter((post) => post.featured));
@@ -28,8 +30,12 @@ export async function getPosts(): Promise<Posts[]> {
     .then((posts) => posts.sort((a, b) => (a.date > b.date ? -1 : 1)));
 }
 
-export async function getPostData(id: string): Promise<string> {
+export async function getPostData(id: string): Promise<PostData> {
   const filepath = path.join(process.cwd(), 'data/posts', `${id}.md`);
-  const fileContents = fs.promises.readFile(filepath, 'utf-8');
-  return fileContents;
+  const metadata = await getPosts() //
+    .then((posts) => posts.find((post) => post.path === id));
+  if (!metadata) throw new Error(`${id}에 해당하는 포스트를 찾을 수 없음`);
+
+  const content = await fs.promises.readFile(filepath, 'utf-8');
+  return { ...metadata, content };
 }

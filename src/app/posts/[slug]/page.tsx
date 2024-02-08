@@ -12,10 +12,9 @@ type Props = {
 };
 
 export default async function PostPage({ params: { slug } }: Props) {
-  const posts = await getPosts();
   const data = await getPostData(slug);
+  const posts = await getPosts();
   const index = posts.findIndex((obj) => obj.path == slug);
-  const post = posts.filter((val) => val.path === slug)[0];
   const prevPost = index === 0 ? posts[posts.length - 1] : posts[index - 1];
   const nextPost = index === posts.length - 1 ? posts[0] : posts[index + 1];
 
@@ -27,7 +26,7 @@ export default async function PostPage({ params: { slug } }: Props) {
     <div className='mt-6'>
       <div className='relative h-96'>
         <Image
-          src={`/images/posts/${post.path}.png`}
+          src={`/images/posts/${data.path}.png`}
           alt=''
           layout='fill'
           className='!h-full object-cover z-0 rounded-t-lg'
@@ -38,15 +37,17 @@ export default async function PostPage({ params: { slug } }: Props) {
         <div className='pt-5 pb-8 px-10'>
           <div className='text-right text-sm font-bold text-stone-400'>
             <FaCalendar className='inline-block mr-2 mb-0.5' />
-            {post.date}
+            {data.date}
           </div>
-          <h1 className='text-4xl font-bold'>{post.title}</h1>
-          <p className='pt-1'>{post.description}</p>
+          <h1 className='text-4xl font-bold'>{data.title}</h1>
+          <p className='pt-1'>{data.description}</p>
           <span className='inline-block w-32 h-1 bg-lime-300'></span>
         </div>
 
         {/* markdown content */}
-        <div className='pb-2 px-10'>{<MarkdownCont postData={data} />}</div>
+        <div className='pb-2 px-10'>
+          {<MarkdownCont postData={data.content} />}
+        </div>
 
         {/* navigation */}
         <div className='flex h-60 mb-10'>
