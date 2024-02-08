@@ -13,10 +13,6 @@ type Props = {
 
 export default async function PostPage({ params: { slug } }: Props) {
   const data = await getPostData(slug);
-  const posts = await getPosts();
-  const index = posts.findIndex((obj) => obj.path == slug);
-  const prevPost = index === 0 ? posts[posts.length - 1] : posts[index - 1];
-  const nextPost = index === posts.length - 1 ? posts[0] : posts[index + 1];
 
   if (!data) {
     redirect('/posts');
@@ -51,52 +47,56 @@ export default async function PostPage({ params: { slug } }: Props) {
 
         {/* navigation */}
         <div className='flex h-60 mb-10'>
-          <div className='flex-1 bg-white rounded-bl-lg overflow-hidden'>
-            <Link
-              href={`/posts/${prevPost.path}`}
-              className='relative inline-block w-full h-full bg-black'
-            >
-              <div className='absolute inline-block w-full h-full z-0'>
-                <Image
-                  src={`/images/posts/${prevPost.path}.png`}
-                  alt=''
-                  layout='fill'
+          {data.prev && (
+            <div className='flex-1 bg-white rounded-bl-lg overflow-hidden'>
+              <Link
+                href={`/posts/${data.prev?.path}`}
+                className='relative inline-block w-full h-full bg-black'
+              >
+                <div className='absolute inline-block w-full h-full z-0'>
+                  <Image
+                    src={`/images/posts/${data.prev?.path}.png`}
+                    alt=''
+                    layout='fill'
+                  />
+                </div>
+                <div className='absolute inline-block w-full h-full z-1 bg-black opacity-60'></div>
+                <FaArrowLeft
+                  color='white'
+                  className='absolute left-8 inset-y-1/2 -translate-y-1/2 w-8 h-8 z-2'
                 />
-              </div>
-              <div className='absolute inline-block w-full h-full z-1 bg-black opacity-60'></div>
-              <FaArrowLeft
-                color='white'
-                className='absolute left-8 inset-y-1/2 -translate-y-1/2 w-8 h-8 z-2'
-              />
-              <div className='inline-block absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-center z-3'>
-                <div className='text-2xl font-bold'>{prevPost.title}</div>
-                <div className='mt-1'>{prevPost.description}</div>
-              </div>
-            </Link>
-          </div>
-          <div className='flex-1 bg-white rounded-br-lg overflow-hidden'>
-            <Link
-              href={`/posts/${nextPost.path}`}
-              className='relative inline-block w-full h-full bg-black'
-            >
-              <div className='absolute inline-block w-full h-full z-0'>
-                <Image
-                  src={`/images/posts/${nextPost.path}.png`}
-                  alt=''
-                  layout='fill'
+                <div className='inline-block absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-center z-3'>
+                  <div className='text-2xl font-bold'>{data.prev?.title}</div>
+                  <div className='mt-1'>{data.prev?.description}</div>
+                </div>
+              </Link>
+            </div>
+          )}
+          {data.next && (
+            <div className='flex-1 bg-white rounded-br-lg overflow-hidden'>
+              <Link
+                href={`/posts/${data.next?.path}`}
+                className='relative inline-block w-full h-full bg-black'
+              >
+                <div className='absolute inline-block w-full h-full z-0'>
+                  <Image
+                    src={`/images/posts/${data.next?.path}.png`}
+                    alt=''
+                    layout='fill'
+                  />
+                </div>
+                <div className='absolute inline-block w-full h-full z-1 bg-black opacity-60'></div>
+                <FaArrowRight
+                  color='white'
+                  className='absolute right-8 inset-y-1/2 -translate-y-1/2 w-8 h-8 z-1'
                 />
-              </div>
-              <div className='absolute inline-block w-full h-full z-1 bg-black opacity-60'></div>
-              <FaArrowRight
-                color='white'
-                className='absolute right-8 inset-y-1/2 -translate-y-1/2 w-8 h-8 z-1'
-              />
-              <div className='inline-block absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-center z-2'>
-                <div className='text-2xl font-bold'>{nextPost.title}</div>
-                <div className='mt-1'>{nextPost.description}</div>
-              </div>
-            </Link>
-          </div>
+                <div className='inline-block absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-center z-2'>
+                  <div className='text-2xl font-bold'>{data.next?.title}</div>
+                  <div className='mt-1'>{data.next?.description}</div>
+                </div>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>

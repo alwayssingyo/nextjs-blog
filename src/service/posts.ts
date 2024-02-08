@@ -10,7 +10,11 @@ export type Posts = {
   featured: boolean;
 };
 
-export type PostData = Posts & { content: string };
+export type PostData = Posts & {
+  content: string;
+  next: Posts | null;
+  prev: Posts | null;
+};
 
 export async function getFeaturedPost(): Promise<Posts[]> {
   return getPosts() //
@@ -32,10 +36,15 @@ export async function getPosts(): Promise<Posts[]> {
 
 export async function getPostData(id: string): Promise<PostData> {
   const filepath = path.join(process.cwd(), 'data/posts', `${id}.md`);
-  const metadata = await getPosts() //
-    .then((posts) => posts.find((post) => post.path === id));
-  if (!metadata) throw new Error(`${id}에 해당하는 포스트를 찾을 수 없음`);
+  const posts = await getPosts();
+  const post = posts.find((post) => post.path === id);
+
+  if (!post) throw new Error(`${id}에 해당하는 포스트를 찾을 수 없음`);
+
+  const index = posts.indexOf(post);
+  const next = index > 0 ? posts[index - 1] : null;
+  const prev = index < posts.length - 1 ? posts[index + 1] : null;
 
   const content = await fs.promises.readFile(filepath, 'utf-8');
-  return { ...metadata, content };
+  return { ...post, content, next, prev };
 }
