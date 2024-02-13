@@ -1,5 +1,5 @@
 import MarkdownCont from '@/components/MarkdownCont/MarkdownCont';
-import { getPostData, getPosts } from '@/service/posts';
+import { getPostData } from '@/service/posts';
 import Image from 'next/image';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -10,6 +10,15 @@ type Props = {
     slug: string;
   };
 };
+
+export async function generateMetadata({ params: { slug } }: Props) {
+  const data = await getPostData(slug);
+
+  return {
+    title: data.title,
+    description: data.description,
+  };
+}
 
 export default async function PostPage({ params: { slug } }: Props) {
   const data = await getPostData(slug);

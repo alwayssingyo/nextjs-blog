@@ -1,6 +1,12 @@
 import Form from '@/components/Form';
 import Link from 'next/link';
 import { FaGithub, FaLinkedin, FaYoutube } from 'react-icons/fa';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Contact Me',
+  description: 'singyo에게 메일 보내기',
+};
 
 export default function ContactPage() {
   return (

@@ -1,4 +1,10 @@
 import Profile from '@/components/Profile';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'About Me',
+  description: 'singyo의 커리어 소개',
+};
 
 export default function AboutPage() {
   return (
