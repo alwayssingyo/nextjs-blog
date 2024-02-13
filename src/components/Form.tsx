@@ -1,19 +1,20 @@
 'use client';
-// import useEmail from '@/util/hooks/useEmail';
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
+import { sendContactEmail } from '@/service/contact';
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 
 type FormData = {
-  email: string;
+  from: string;
   subject: string;
   message: string;
 };
 
+const DEFAULT_DATA = {
+  from: '',
+  subject: '',
+  message: '',
+};
 export default function Form() {
-  const [form, setForm] = useState<FormData>({
-    email: '',
-    subject: '',
-    message: '',
-  });
+  const [form, setForm] = useState<FormData>(DEFAULT_DATA);
   const [send, setSend] = useState<string | null>(null);
   const alertRef = useRef<HTMLDivElement>(null);
 
@@ -24,10 +25,19 @@ export default function Form() {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSend('success');
-    setTimeout(() => {
-      setSend(null);
-    }, 2000);
+    sendContactEmail(form) //
+      .then(() => {
+        setSend('success');
+        setForm(DEFAULT_DATA);
+      })
+      .catch(() => {
+        setSend('fail');
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setSend(null);
+        }, 2000);
+      });
   };
 
   return (
@@ -50,13 +60,13 @@ export default function Form() {
         <div>
           <p className='mb-2'>Your Email</p>
           <input
-            type='email'
-            id='email'
-            name='email'
+            type='from'
+            id='from'
+            name='from'
             required
             autoFocus
             className='w-full text-black'
-            value={form.email}
+            value={form.from}
             onChange={onChange}
           />
         </div>
