@@ -15,7 +15,7 @@ export default function MarkdownCont({ postData }: Data) {
       className='prose lg:prose-xl max-w-none'
       remarkPlugins={[remarkGfm]}
       components={{
-        code({ node, className, children, ...props }) {
+        code({ node, className, children, ...props }: any) {
           const match = /language-(\w+)/.exec(className || '');
           return match ? (
             <SyntaxHighlighter

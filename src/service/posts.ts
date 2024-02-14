@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs';
+import { cache } from 'react';
 
 export type Posts = {
   title: string;
@@ -26,13 +27,13 @@ export async function getNonFeaturedPost(): Promise<Posts[]> {
     .then((posts) => posts.filter((post) => !post.featured));
 }
 
-export async function getPosts(): Promise<Posts[]> {
+export const getPosts = cache(async () => {
   const filepath = path.join(process.cwd(), 'data', 'posts.json');
   return fs.promises
     .readFile(filepath, 'utf-8')
     .then<Posts[]>(JSON.parse)
     .then((posts) => posts.sort((a, b) => (a.date > b.date ? -1 : 1)));
-}
+});
 
 export async function getPostData(id: string): Promise<PostData> {
   const filepath = path.join(process.cwd(), 'data/posts', `${id}.md`);
