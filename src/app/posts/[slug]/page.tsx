@@ -1,5 +1,5 @@
 import MarkdownCont from '@/components/MarkdownCont/MarkdownCont';
-import { getPostData } from '@/service/posts';
+import { getFeaturedPost, getPostData } from '@/service/posts';
 import Image from 'next/image';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -110,4 +110,11 @@ export default async function PostPage({ params: { slug } }: Props) {
       </div>
     </div>
   );
+}
+
+export async function generateStaticParams() {
+  const posts = await getFeaturedPost();
+  return posts.map((post) => ({
+    slug: post.path,
+  }));
 }
